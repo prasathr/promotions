@@ -1,17 +1,16 @@
-
-<html>
 <body onclick="hideWindow()" onkeypress="hideWindow()">
-<div id="content">
-  <img src="image/croma.jpg" style='position:fixed;top:0px;left:0px;width:100%;height:100%;z-index:-1;'/>
-</div>
+<img src="image/croma.jpg" style='position:fixed;top:0px;left:0px;width:100%;height:100%;z-index:-1;'/>
 <script>
-  const remote = require('electron').remote;
+  var ipc = require('electron').ipcRenderer;
+  var {remote} = require('electron');
+  var main = remote.require("./index.js");
+
+  window.onerror = function(error, url, line) {
+    ipc.send('errorInWindow', error);
+  };
 
   function hideWindow() {
-    var window = remote.getCurrentWindow();
-    window.close();
+    main.hideScreen();
   }
-  
 </script>
 </body>
-</html>
